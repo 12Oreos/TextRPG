@@ -1,0 +1,35 @@
+Feel Free To Suggest Changes
+
+The Outline:
+1.Basic User Interface
+2.Basic Game Mechanics (Health, Mana, Stamina, Hunger,
+3.Basic Character Creator (Dexterity, Strength, Vitality, Willpower, Endurance)
+4.Basic Random Travel Event Generator
+5.Basic Combat
+6.Basic Inventory System
+7.Basic NPCs (Non Generated Speech)
+8.Basic Hostile Monsters/NPCs
+8.5.Basic Quest Generator (Static Or Basic Generated Quests)
+9.Basic Spellcasting (Simple Spells)
+10.Advance User Interface
+11.Basic Magic Items (Simple Items That Add To Stats)
+12.Static Map (Unchanging Hand Made Simple Map)
+13.Static Dungeons (Unchanging Hand Made Simple Dungeon/s)
+14.Advance Character Creator
+15.Basic Map Generator
+16.Basic Dungeon Layout Generator
+17.Basic Dungeon Room Generator
+18.Advance Travel Event Generator
+19.Advance Combat (Limb Targeting, Advance Actions, Custom Actions)
+20.Advance Spellcasting (More Complex Spells)
+21.Advance Magic Items (More Complex Items)
+22.Advance Inventory System (Armor Slots, Inventory Volume, Inventory Weight, Equiping Slots)
+23.Basic Spell Generator (Custom Generated Simple Spells)
+24.Basic Magic Item Generator (Custom Generated Simple Items)
+25.Advance NPCs (Basic Conversation Engine)
+26.Advance Monster/Hostile NPCs (More Monsters, More Complex NPC Actions In Combat)
+27.Advance Dungeon Layout Generator
+28.Advance Map Generator
+29.Advance Quest Generator
+
+Optional Features:
