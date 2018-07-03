@@ -6,6 +6,11 @@ using namespace std;
 
 //Classes
 
+class Character
+{
+	int health;
+	int mana;
+}
 //Functions
 
 void PrintMainMenu()
