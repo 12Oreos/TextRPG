@@ -13,10 +13,12 @@ void PrintMainMenu()
 	cout << "Health: " << " Mana: " << endl;
 	cout << "---------------------" << endl;
 	cout << "1.Option" << endl;
-	cout << "2.Option" << endl;
-	cout << "3.Option" << endl;
-	cout << "4.Option" << endl;
-	cout << "5.Quit" << endl;
+	cout << "2.Rest" << endl;
+	cout << "3.Inventory" << endl;
+	cout << "4.Character Sheet" << endl;
+	cout << "5.Save Character" << endl;
+	cout << "6.Load Character" << endl;
+	cout << "7.Quit" << endl;
 	cout << "---------------------" << endl;
 }
 
@@ -44,7 +46,7 @@ int main()
 		cin >> Choice; //Do Not Enter Characters
 		switch (Choice)
 		{
-		case 5:
+		case 7:
 			return 0;
 			break;
 		default:
