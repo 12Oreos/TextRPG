@@ -1,51 +1,115 @@
 #include <iostream>
+
 #include <cstdlib>
+
 #include <ctime>
+
 using namespace std;
+
 //Global Variables
+
 
 //Classes
 
+
 class Character
+
 {
 private:
+
+
 	//Variables
-	int health;
-	int mana;
+
+	int v_Health;
+
+	int v_Mana;
+
+	int v_MaxHealth;
+
+	int v_MaxMana;
+
 public:
+
 	//Acessors
-	int GetHealth() { return health; }
-	int GetMana() { return mana; }
-	//Modifers
-	void SetHealth(int x)
-	{
-		this->health = x;
+
+	int GetMaxHealth() { return v_MaxHealth; } //Returns Max Health Integar
+
+	int GetMaxMana() { return v_MaxMana; } //Returns Max Mana Integar
+
+	int GetHealth() { return v_Health; } //Returns Health Integar
+
+	int GetMana() { return v_Mana; } //Returns Mana Integar
+
+									 //Modifers
+
+	void SetHealth(int Health) {
+		v_Health = Health;
 	}
-	void SetMana(int x)
-	{
-		this->mana = x;
+	//Changes Health Value
+
+	void SetMana(int Mana) {
+		v_Mana = Mana;
 	}
+	//Changes Mana Value	
+	void SetMaxHealth(int MaxHealth) {
+		v_MaxHealth = MaxHealth;
+	}
+	//Changes Max Health Value
+
+	void SetMaxMana(int MaxMana) {
+		v_MaxMana = MaxMana;
+	}
+
+	void PrintMainMenu()
+	{
+
+		//'Player Character'
+
+
+		std::cout << "Health: " << GetHealth() << "/" << GetMaxHealth() << " Mana: " << GetMana() << "/" << GetMaxMana() << endl;
+
+		std::cout << "---------------------" << endl;
+
+		std::cout << "1.Travel" << endl;
+
+		std::cout << "2.Rest" << endl;
+
+		std::cout << "3.Inventory" << endl;
+
+		std::cout << "4.Character Sheet" << endl;
+
+		std::cout << "5.Save Character" << endl;
+
+		std::cout << "6.Load Character" << endl;
+
+		std::cout << "7.Quit" << endl;
+
+		std::cout << "---------------------" << endl;
+	}
+	//Changes Max Mana Value
+
+	//Character Intilizer
+
+	Character()
+	{
+
+		v_MaxMana = 10;//10 is a place holder
+
+		v_MaxHealth = 10; //10 is a place holder
+
+		v_Health = 0; //0 is a place holder
+
+		v_Mana = 0; //0 is a place holder
+	}
+
 };
-//Functions
 
-void PrintMainMenu()
-{
-	//Class Caller
-	Character PC; //'Player Character'
+//Function
 
-	cout << "Health: " << PC.GetHealth() << " Mana: " << PC.GetMana() << endl;
-	cout << "---------------------" << endl;
-	cout << "1.Travel" << endl;
-	cout << "2.Rest" << endl;
-	cout << "3.Inventory" << endl;
-	cout << "4.Character Sheet" << endl;
-	cout << "5.Save Character" << endl;
-	cout << "6.Load Character" << endl;
-	cout << "7.Quit" << endl;
-	cout << "---------------------" << endl;
-}
 
 //Empty Space
+
+
 
 
 
@@ -53,29 +117,150 @@ void PrintMainMenu()
 
 
 //Empty Space
+
 
 
 int main()
 {
+
 	//Class Callers
+
 	Character PC; //'Player Character'
-				  //Variables
+
+	srand(time(NULL)); //Randomizer
+
+					   //Variables
+
 	bool Playing = true; //Keeps Gamerunning
+
 	int Choice; //Menu Choices
-				//Gameloop
-	while (Playing)
+
+	int ChangingVariable; //Throw Away Variable
+
+	int ChangingVariable2; //Throw Away Variable
+
+	while (Playing) //Gameloop
+
 	{
-		PrintMainMenu();
+
+		PC.PrintMainMenu();
+
 		cin >> Choice; //Do Not Enter Characters
+
 		switch (Choice)
 		{
+
+		case 1:
+
+			system("CLS");
+
+			break;
+
+		case 2:
+
+			system("CLS");
+
+			std::cout << "Warning!: Resting Outside Of A Inn Will Will Drain Your Hunger!" << endl;
+
+			std::cout << "------------------------------" << endl;
+
+			std::cout << "1.Rest" << endl;
+
+			std::cout << "2.Back" << endl;
+
+			std::cout << "------------------------------" << endl;
+
+			cin >> Choice;
+
+			switch (Choice)
+			{
+
+			case 1: //The Modifers PC.SetHealth(), PC.SetMana(), PC.SetMaxHealth(), and PC,SetMaxMana() Are Not Working Can you Fix Them For Me?
+
+				ChangingVariable = rand() % (PC.GetMaxHealth()/2) + PC.GetHealth();
+
+				ChangingVariable2 = rand() % (PC.GetMaxMana()/2) + PC.GetMana();
+
+				cout << ChangingVariable << endl;
+
+				cout << ChangingVariable2 << endl;
+
+				PC.SetHealth(ChangingVariable);
+
+				PC.SetMana(ChangingVariable2);
+
+				if (PC.GetHealth() > PC.GetMaxHealth())
+
+				{
+
+					PC.SetHealth(PC.GetMaxHealth());
+
+				}
+
+				if (PC.GetMana() > PC.GetMaxMana())
+
+				{
+
+					PC.SetMana(PC.GetHealth());
+
+				}
+
+				break;
+
+			case 2:
+
+				break;
+
+			default:
+
+				std::cout << "Invalid Choice" << endl;
+
+				break;
+
+			}
+
+		case 3:
+
+			system("CLS");
+
+			break;
+
+		case 4:
+
+			system("CLS");
+
+			break;
+
+		case 5:
+
+			system("CLS");
+
+			break;
+
+		case 6:
+
+			system("CLS");
+
+			break;
+
 		case 7:
+
 			return 0;
+
 			break;
+
 		default:
-			cout << "Invalid Choice" << endl;
+
+			system("CLS");
+
+			std::cout << "Invalid Choice" << endl;
+
 			break;
+
 		}
+
 	}
+
 	return 0;
+
 }
