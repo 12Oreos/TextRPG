@@ -101,24 +101,97 @@ public:
 
 		v_Mana = 0; //0 is a place holder
 	}
-
 };
 
 //Function
 
-
 //Empty Space
 
+int main()
+{	
+  //Class Callers
+  Character PC; //'Player Character'
+	
+  srand(time(NULL)); //Randomizer
+				  
+  //Variables	
+  bool Playing = true; //Keeps Gamerunning
+  int Choice; //Menu Choices
+  int ChangingVariable; //Throw Away Variable
+  int ChangingVariable2; //Throw Away Variable
 
+  while (Playing) //Gameloop
+  {	
+    PrintMainMenu();
+		
+    cin >> Choice; //Do Not Enter Characters
+		
+    switch (Choice)
+	  {
+      case 1:
+      system("CLS");
+      break;
+		
+      case 2: 			
+      system("CLS");
 
-
-
-
+<<<<<<< HEAD
 
 
 //Empty Space
+=======
+      std::cout << "Warning!: Resting Outside Of A Inn Will Will Drain Your Hunger!" << endl;
+      std::cout << "------------------------------" << endl;
+      std::cout << "1.Rest" << endl;
+      std::cout << "2.Back" << endl;
+      std::cout << "------------------------------" << endl;
+      cin >> Choice;
+			
+      switch (Choice)
+	    {
+        case 1: //The Modifers PC.SetHealth(), PC.SetMana(), PC.SetMaxHealth(), and PC,SetMaxMana() Are Not Working Can you Fix Them For Me?
+        ChangingVariable = rand() % PC.GetMaxHealth() + PC.GetHealth();
+        ChangingVariable2 = rand() % PC.GetMaxMana() + PC.GetMana();
+        cout << ChangingVariable << endl;
+        cout << ChangingVariable2 << endl;
+        PC.SetHealth(ChangingVariable);
+        PC.SetMana(ChangingVariable2);
+        if (PC.GetHealth() > PC.GetMaxHealth())
+        {
+          PC.SetHealth(PC.GetMaxHealth());
+        }
+        if (PC.GetMana() > PC.GetMaxMana())
+        {
+          PC.SetMana(PC.GetHealth());
+        }
+        break;
+			
+        case 2:	
+        break;
+			
+        default:
+        std::cout << "Invalid Choice" << endl;			
+        break;			
+      }
+		
+      case 3:			
+      system("CLS");			
+      break;
+>>>>>>> f116bd7b53c2933378d24d07e5a1fd97b3fbe9df
 
+      case 4:
+      system("CLS");
+      break;
+		
+      case 5:
+      system("CLS");
+      break;
+		
+      case 6:
+      system("CLS");
+      break;
 
+<<<<<<< HEAD
 
 int main()
 {
@@ -264,3 +337,18 @@ int main()
 	return 0;
 
 }
+=======
+      case 7:
+      return 0;
+      break;
+		
+      default:
+      system("CLS");
+      std::cout << "Invalid Choice" << endl;
+      break;
+		
+    }
+  }
+return 0;
+}
+>>>>>>> f116bd7b53c2933378d24d07e5a1fd97b3fbe9df
