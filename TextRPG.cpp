@@ -21,6 +21,8 @@ private:
 	int mana;
 	int maxhealth;
 	int maxmana;
+  int hunger;
+  int maxhunger;
 	int strength;
 	int constitution;
 	int dexterity;
@@ -32,8 +34,10 @@ public:
 	//Acessors
 	int GetMaxHealth() { return maxhealth; }
 	int GetMaxMana() { return maxmana; }
+  int GetMaxHunger() { return maxhunger; }
 	int GetHealth() { return health; }
 	int GetMana() { return mana; }
+  int GetHunger() { return hunger; }
 	int GetLevel() { return level; }
 	int GetExp() { return exp; }
 	int GetExpNext() { return expnext; }
@@ -49,8 +53,10 @@ public:
 	//Modifers
 	void SetHealth(int Health) { health = Health; }
 	void SetMana(int Mana) { mana = Mana; }
+  void SetHunger(int Hunger) { hunger = Hunger; }
 	void SetMaxHealth(int MaxHealth) { maxhealth = MaxHealth; }
 	void SetMaxMana(int MaxMana) { maxmana = MaxMana; }
+  void setMaxHunger(int MaxHunger) { maxhunger = MaxHunger; }
 	void SetLevel(int Level) { level = Level; }
 	void SetExp(int Exp) { exp = Exp; }
 	void SetExpNext(int ExpNext) { expnext = ExpNext; }
@@ -81,7 +87,7 @@ public:
 	}
 	void PrintMainMenu()
 	{
-		std::cout << "Health: " << GetHealth() << "/" << GetMaxHealth() << " Mana: " << GetMana() << "/" << GetMaxMana() << endl;
+		std::cout << "Health: " << GetHealth() << "/" << GetMaxHealth() << " Hunger: " << GetHunger() << "/" << GetMaxHunger() << " Mana: " << GetMana() << "/" << GetMaxMana() << endl;
 		std::cout << "---------------------" << endl;
 		std::cout << "Quit" << endl;
 		std::cout << "1.Travel" << endl;
@@ -104,6 +110,7 @@ public:
 		cout << "=========Status============" << endl;
 		cout << "Health:" << GetHealth() << "/" << GetMaxHealth() << endl;
 		cout << "Mana:" << GetMana() << "/" << GetMaxMana() << endl;
+    cout << "Hunger: " << GetHunger() << "/" << GetMaxHunger() << endl;
 		cout << "=========Stats==============" << endl;
 		cout << "Strength:" << GetStrength() << endl;
 		cout << "Constitution:" << GetConstitution() << endl;
@@ -211,8 +218,10 @@ public:
 		statpoints = 2;
 		maxmana = (attunment * 2) + (level * 10) - 1;
 		maxhealth = (constitution * 2) + (level * 10) - 1;
+    maxhunger = (constitution * 2) + (level * 10) - 1;
 		health = 10;
 		mana = 10;
+    hunger = 10;
 		strength = 1;
 		constitution = 1;
 		dexterity = 1;
@@ -226,6 +235,7 @@ public:
 	{
 		maxhealth = (constitution * 2) + (level * 10) - 1;
 		maxmana = (attunment * 2) + (level * 10) - 1;
+    maxhunger = (constitution * 2) + (level * 10) - 1;
 		expnext = (level * 100);
 		if (GetHealth() > GetMaxHealth())
 		{
@@ -235,6 +245,10 @@ public:
 		{
 			SetMana(GetMaxMana());
 		}
+    if (GetHunger() > GetMaxHunger())
+    {
+      SetHunger(GetMaxHunger());
+    }
 	}
 	//Constructer
 	Character()
@@ -256,53 +270,6 @@ public:
 		charisma = 0;
 	}
 };
-class Combat
-{
-private:
-	int EnemyCount;
-public:
-	//Acessers
-	int GetEnemyNumber()
-	{
-		return EnemyCount;
-	}
-	//Modifers
-	void SetEnemyNumber(int x) { EnemyCount = x; }
-};
-class Enemy
-{
-private:
-	int m_level;
-	int m_ExpReward;
-	int m_ItemReward;
-	int m_health;
-	int m_mana;
-	int m_maxhealth;
-	int m_maxmana;
-	int m_strength;
-	int m_constitution;
-	int m_dexterity;
-	int m_intelligence;
-	int m_wisdom;
-	int m_charisma;
-	int m_attunment;
-public:
-	void SetHealth(int Health) { m_health = Health; }
-	void SetMana(int Mana) { m_mana = Mana; }
-	void SetMaxHealth(int MaxHealth) { m_maxhealth = MaxHealth; }
-	void SetMaxMana(int MaxMana) { m_maxmana = MaxMana; }
-	void SetLevel(int Level) { m_level = Level; }
-	void SetExpReward(int ExpReward) { m_ExpReward = ExpReward; }
-	void SetExpNext(int ItemReward) { m_ItemReward = ItemReward; }
-	void SetStrength(int Strength) { m_strength = Strength; }
-	void SetConstitution(int Constitution) { m_constitution = Constitution; }
-	void SetDexterity(int Dexterity) { m_dexterity = Dexterity; }
-	void SetIntelligence(int Intelligence) { m_intelligence = Intelligence; }
-	void SetWisdom(int Wisdom) { m_wisdom = Wisdom; }
-	void SetCharisma(int Charisma) { m_charisma = Charisma; }
-	void SetAttunment(int Attunment) { m_attunment = Attunment; }
-
-};
 //Functions
 
 
@@ -317,8 +284,6 @@ int main()
 
 	//Class Callers
 	Character PC; //Player Character
-	Combat CB; //Combat
-	Enemy HC; //Hostile Character
 	srand(time(NULL)); //Randomizer
 					   //Variables	
 	bool Playing = true; //Keeps Gamerunning
@@ -335,6 +300,7 @@ int main()
 	//Replacing With Arrey Once I Figure Them Out
 	int ChangingVariable; //Throw Away Variable
 	int ChangingVariable2; //Throw Away Variable
+  int healthDec;
 	bool ChangingBool;
 	bool ChangingBool2;
 	PC.CharacterInitalize();
@@ -346,7 +312,9 @@ int main()
 		switch (Choice)
 		{
 		case 1:
-			std::system("CLS");
+			healthDec = rand()%(2-1 + 1) + 1;
+      std::system("CLS");
+      PC.SetHunger(PC.GetHunger()-healthDec);
 			break;
 		case 2:
 			std::system("CLS");
@@ -370,6 +338,7 @@ int main()
 				std::cout << "Invalid Choice" << endl;
 				break;
 			}
+      break;
 		case 3:
 			std::system("CLS");
 			break;
@@ -383,7 +352,7 @@ int main()
 			std::system("CLS");
 			break;
 		case 7:
-			ChangingBool = true;
+	/*  ChangingBool = true;
 			while (ChangingBool)
 			{
 				std::system("CLS");
@@ -426,12 +395,15 @@ int main()
 						}
 					}
 				}
+  
 				break;
 		default:
 			break;
 			}
 			break;
-		case 8:
+  	break;
+  */
+    case 8:
 			std::system("CLS");
 			std::cout << "=========================" << endl;
 			std::cout << "1.Print Values" << endl;
@@ -447,22 +419,23 @@ int main()
 			{
 			case 1:
 				std::cout << "=========================" << endl;
-				std::cout << "1.Health:" << PC.GetHealth() << endl;
-				std::cout << "2.Mana:" << PC.GetMana() << endl;
-				std::cout << "3.Max Health:" << PC.GetMaxHealth() << endl;
-				std::cout << "4.Max Mana:" << PC.GetMaxMana() << endl;
-				std::cout << "5.Strength:" << PC.GetStrength() << endl;
-				std::cout << "6.Constitution:" << PC.GetConstitution() << endl;
-				std::cout << "7.Dexterity:" << PC.GetDexterity() << endl;
-				std::cout << "8.Intelligence:" << PC.GetIntelligence() << endl;
-				std::cout << "9.Wisdom:" << PC.GetWisdom() << endl;
-				std::cout << "10.Charisma:" << PC.GetCharisma() << endl;
-				std::cout << "11.Attunment:" << PC.GetAttunment() << endl;
-				std::cout << "12.Stat Points:" << PC.GetStatPoints() << endl;
-				std::cout << "13.Skill Points:" << PC.GetSkillPoints() << endl;
-				std::cout << "14.Exp:" << PC.GetExp() << endl;
-				std::cout << "15.Exp to Next Level:" << PC.GetExpNext() << endl;
-				std::cout << "16.Level:" << PC.GetLevel() << endl;
+				std::cout << "1.Health: " << PC.GetHealth() << endl;
+        std::cout << "2.Hunger: " << PC.GetHunger() << endl;
+				std::cout << "3.Mana: " << PC.GetMana() << endl;
+				std::cout << "4.Max Health: " << PC.GetMaxHealth() << endl;
+				std::cout << "5.Max Mana: " << PC.GetMaxMana() << endl;
+				std::cout << "6.Strength: " << PC.GetStrength() << endl;
+				std::cout << "7.Constitution: " << PC.GetConstitution() << endl;
+				std::cout << "8.Dexterity: " << PC.GetDexterity() << endl;
+				std::cout << "9.Intelligence: " << PC.GetIntelligence() << endl;
+				std::cout << "10.Wisdom: " << PC.GetWisdom() << endl;
+				std::cout << "11.Charisma: " << PC.GetCharisma() << endl;
+				std::cout << "12.Attunment: " << PC.GetAttunment() << endl;
+				std::cout << "13.Stat Points: " << PC.GetStatPoints() << endl;
+				std::cout << "14.Skill Points: " << PC.GetSkillPoints() << endl;
+				std::cout << "15.Exp: " << PC.GetExp() << endl;
+				std::cout << "16.Exp to Next Level: " << PC.GetExpNext() << endl;
+				std::cout << "17.Level: " << PC.GetLevel() << endl;
 				std::cout << "=========================" << endl;
 				break;
 			case 2:
