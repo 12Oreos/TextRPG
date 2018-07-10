@@ -34,7 +34,7 @@ public:
 	//Acessors
 	int GetMaxHealth() { return maxhealth; }
 	int GetMaxMana() { return maxmana; }
-  int GetMaxHunger() { return maxhunger }
+  int GetMaxHunger() { return maxhunger; }
 	int GetHealth() { return health; }
 	int GetMana() { return mana; }
   int GetHunger() { return hunger; }
@@ -386,6 +386,7 @@ int main()
 				std::cout << "Invalid Choice" << endl;
 				break;
 			}
+      break;
 		case 3:
 			std::system("CLS");
 			break;
@@ -449,7 +450,8 @@ int main()
 			}
 			break;
   */
-		case 8:
+		break;
+    case 8:
 			std::system("CLS");
 			std::cout << "=========================" << endl;
 			std::cout << "1.Print Values" << endl;
