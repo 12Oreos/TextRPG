@@ -270,53 +270,6 @@ public:
 		charisma = 0;
 	}
 };
-class Combat
-{
-private:
-	int EnemyCount;
-public:
-	//Acessers
-	int GetEnemyNumber()
-	{
-		return EnemyCount;
-	}
-	//Modifers
-	void SetEnemyNumber(int x) { EnemyCount = x; }
-};
-class Enemy
-{
-private:
-	int m_level;
-	int m_ExpReward;
-	int m_ItemReward;
-	int m_health;
-	int m_mana;
-	int m_maxhealth;
-	int m_maxmana;
-	int m_strength;
-	int m_constitution;
-	int m_dexterity;
-	int m_intelligence;
-	int m_wisdom;
-	int m_charisma;
-	int m_attunment;
-public:
-	void SetHealth(int Health) { m_health = Health; }
-	void SetMana(int Mana) { m_mana = Mana; }
-	void SetMaxHealth(int MaxHealth) { m_maxhealth = MaxHealth; }
-	void SetMaxMana(int MaxMana) { m_maxmana = MaxMana; }
-	void SetLevel(int Level) { m_level = Level; }
-	void SetExpReward(int ExpReward) { m_ExpReward = ExpReward; }
-	void SetExpNext(int ItemReward) { m_ItemReward = ItemReward; }
-	void SetStrength(int Strength) { m_strength = Strength; }
-	void SetConstitution(int Constitution) { m_constitution = Constitution; }
-	void SetDexterity(int Dexterity) { m_dexterity = Dexterity; }
-	void SetIntelligence(int Intelligence) { m_intelligence = Intelligence; }
-	void SetWisdom(int Wisdom) { m_wisdom = Wisdom; }
-	void SetCharisma(int Charisma) { m_charisma = Charisma; }
-	void SetAttunment(int Attunment) { m_attunment = Attunment; }
-
-};
 //Functions
 
 
@@ -331,8 +284,6 @@ int main()
 
 	//Class Callers
 	Character PC; //Player Character
-	Combat CB; //Combat
-	Enemy HC; //Hostile Character
 	srand(time(NULL)); //Randomizer
 					   //Variables	
 	bool Playing = true; //Keeps Gamerunning
@@ -349,6 +300,7 @@ int main()
 	//Replacing With Arrey Once I Figure Them Out
 	int ChangingVariable; //Throw Away Variable
 	int ChangingVariable2; //Throw Away Variable
+  int healthDec;
 	bool ChangingBool;
 	bool ChangingBool2;
 	PC.CharacterInitalize();
@@ -360,7 +312,7 @@ int main()
 		switch (Choice)
 		{
 		case 1:
-			int healthDec = rand()%(2-1 + 1) + 1;
+			healthDec = rand()%(2-1 + 1) + 1;
       std::system("CLS");
       PC.SetHunger(PC.GetHunger()-healthDec);
 			break;
@@ -449,8 +401,8 @@ int main()
 			break;
 			}
 			break;
+  	break;
   */
-		break;
     case 8:
 			std::system("CLS");
 			std::cout << "=========================" << endl;
