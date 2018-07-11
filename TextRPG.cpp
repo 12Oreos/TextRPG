@@ -22,8 +22,6 @@ private:
 	int mana;
 	int maxhealth;
 	int maxmana;
-    int hunger;
-    int maxhunger;
 	int strength;
 	int constitution;
 	int dexterity;
@@ -38,8 +36,6 @@ public:
 	int GetMaxMana() { return maxmana; }
 	int GetHealth() { return health; }
 	int GetMana() { return mana; }
-  int GetMaxHunger() { return maxhunger; }
-  int GetHunger() { return hunger; }
 	int GetLevel() { return level; }
 	int GetExp() { return exp; }
 	int GetExpNext() { return expnext; }
@@ -56,10 +52,8 @@ public:
 	//Modifers
 	void SetHealth(int Health) { health = Health; }
 	void SetMana(int Mana) { mana = Mana; }
-    void SetHunger(int Hunger) { hunger = Hunger; }
 	void SetMaxHealth(int MaxHealth) { maxhealth = MaxHealth; }
 	void SetMaxMana(int MaxMana) { maxmana = MaxMana; }
-    void setMaxHunger(int MaxHunger) { maxhunger = MaxHunger; }
 	void SetLevel(int Level) { level = Level; }
 	void SetExp(int Exp) { exp = Exp; }
 	void SetExpNext(int ExpNext) { expnext = ExpNext; }
@@ -92,7 +86,6 @@ public:
 	void PrintMainMenu()
 	{
 		std::cout << "Health: " << GetHealth() << "/" << GetMaxHealth() << " Mana: " << GetMana() << "/" << GetMaxMana() << endl;
-		std::cout << "Hunger: " << GetHunger() << "/" << GetMaxHunger() << endl;
 		std::cout << "---------------------" << endl;
 		std::cout << "0.Quit" << endl;
 		std::cout << "1.Travel" << endl;
@@ -116,7 +109,6 @@ public:
 		cout << "Health:" << GetHealth() << "/" << GetMaxHealth() << endl;
 		cout << "Mana:" << GetMana() << "/" << GetMaxMana() << endl;
 		cout << "Gold:" << GetGold() << endl;
-		cout << "Hunger: " << GetHunger() << "/" << GetMaxHunger() << endl;
 		cout << "=========Stats==============" << endl;
 		cout << "Strength:" << GetStrength() << endl;
 		cout << "Constitution:" << GetConstitution() << endl;
@@ -224,10 +216,8 @@ public:
 		statpoints = 2;
 		maxmana = (attunment * 2) + (level * 10) - 1;
 		maxhealth = (constitution * 2) + (level * 10) - 1;
-		maxhunger = (constitution * 2) + (level * 10) - 1;
 		health = 10;
 		mana = 10;
-        hunger = 10;
 		strength = 1;
 		constitution = 1;
 		dexterity = 1;
@@ -258,10 +248,6 @@ public:
 			SetSkillPoints(GetSkillPoints() + 5);
 			SetExp(0);
 		}
-		if (GetHunger() > GetMaxHunger())
-		{
-			SetHunger(GetMaxHunger());
-		}
 	}
 	//Constructer
 	Character()
@@ -282,6 +268,39 @@ public:
 		wisdom = 0;
 		charisma = 0;
 		gold = 0;
+	}
+};
+class Inventory
+{
+private:
+	int maxinventorysize;
+	int currentinventoryslotstaken;
+	int possibletakenslots;
+public:
+	//Acessors
+	int GetPossibleSlots() { possibletakenslots = maxinventorysize - currentinventoryslotstaken; return possibletakenslots; }
+	int GetMaxInventorySize() { return maxinventorysize; }
+	int GetCurrentInventorySlotsTaken() { return currentinventoryslotstaken; }
+	//Modifers
+	void SetMaxInventorySize(int MaxInventory) { maxinventorysize = MaxInventory; }
+	void SetCurrentInventorySlots(int InventorySlots) { currentinventoryslotstaken = InventorySlots; }
+	//Constructer
+	Inventory()
+	{
+		maxinventorysize = 0;
+		currentinventoryslotstaken = 0;
+		possibletakenslots = 0;
+	}
+	//Initilizer
+	void InventoryInitilizer()
+	{
+		maxinventorysize = 20;
+		currentinventoryslotstaken = 0;
+		possibletakenslots = 20;
+	}
+	//InventoryUpdater
+	void UpdateInventory()
+	{
 	}
 };
 class Combat
@@ -352,7 +371,6 @@ int main()
 	int ChangingVariable;
 	int ChangingVariable2;
 	int ChangingVariable3;
-    int healthDec;
 	bool ChangingBool;
 	bool ChangingBool2;
 	PC.CharacterInitalize();
@@ -364,9 +382,7 @@ int main()
 		switch (Choice)
 		{
 		case 1:
-			healthDec = rand()%(2-1 + 1) + 1;
-      std::system("CLS");
-      PC.SetHunger(PC.GetHunger()-healthDec);
+			std::system("CLS");
 			break;
 		case 2:
 			std::system("CLS");
@@ -389,7 +405,7 @@ int main()
 			default:
 				std::cout << "Invalid Choice" << endl;
 				break;
-			
+			}
 		case 3:
 			std::system("CLS");
 			break;
@@ -655,23 +671,22 @@ int main()
 			{
 			case 1:
 				std::cout << "=========================" << endl;
-				std::cout << "1.Health: " << PC.GetHealth() << endl;
-                std::cout << "2.Hunger: " << PC.GetHunger() << endl;
-				std::cout << "3.Mana: " << PC.GetMana() << endl;
-				std::cout << "4.Max Health: " << PC.GetMaxHealth() << endl;
-				std::cout << "5.Max Mana: " << PC.GetMaxMana() << endl;
-				std::cout << "6.Strength: " << PC.GetStrength() << endl;
-				std::cout << "7.Constitution: " << PC.GetConstitution() << endl;
-				std::cout << "8.Dexterity: " << PC.GetDexterity() << endl;
-				std::cout << "9.Intelligence: " << PC.GetIntelligence() << endl;
-				std::cout << "10.Wisdom: " << PC.GetWisdom() << endl;
-				std::cout << "11.Charisma: " << PC.GetCharisma() << endl;
-				std::cout << "12.Attunment: " << PC.GetAttunment() << endl;
-				std::cout << "13.Stat Points: " << PC.GetStatPoints() << endl;
-				std::cout << "14.Skill Points: " << PC.GetSkillPoints() << endl;
-				std::cout << "15.Exp: " << PC.GetExp() << endl;
-				std::cout << "16.Exp to Next Level: " << PC.GetExpNext() << endl;
-				std::cout << "17.Level: " << PC.GetLevel() << endl;
+				std::cout << "1.Health:" << PC.GetHealth() << endl;
+				std::cout << "2.Mana:" << PC.GetMana() << endl;
+				std::cout << "3.Max Health:" << PC.GetMaxHealth() << endl;
+				std::cout << "4.Max Mana:" << PC.GetMaxMana() << endl;
+				std::cout << "5.Strength:" << PC.GetStrength() << endl;
+				std::cout << "6.Constitution:" << PC.GetConstitution() << endl;
+				std::cout << "7.Dexterity:" << PC.GetDexterity() << endl;
+				std::cout << "8.Intelligence:" << PC.GetIntelligence() << endl;
+				std::cout << "9.Wisdom:" << PC.GetWisdom() << endl;
+				std::cout << "10.Charisma:" << PC.GetCharisma() << endl;
+				std::cout << "11.Attunment:" << PC.GetAttunment() << endl;
+				std::cout << "12.Stat Points:" << PC.GetStatPoints() << endl;
+				std::cout << "13.Skill Points:" << PC.GetSkillPoints() << endl;
+				std::cout << "14.Exp:" << PC.GetExp() << endl;
+				std::cout << "15.Exp to Next Level:" << PC.GetExpNext() << endl;
+				std::cout << "16.Level:" << PC.GetLevel() << endl;
 				std::cout << "=========================" << endl;
 				break;
 			case 2:
@@ -819,8 +834,6 @@ int main()
 				system("CLS");
 				break;
 			case 6:
-				break;
-			case 7:
 				break;
 			default:
 				cout << "Invalid Choice" << endl;
