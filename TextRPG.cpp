@@ -270,37 +270,138 @@ public:
 		gold = 0;
 	}
 };
+class Item
+{
+private:
+	int ID;
+	string name;
+	int CostValue;
+	int SellValue;
+	float Weight;
+	float DropChance;
+	bool InInventory;
+public:
+	//Constructer
+	Item()
+	{
+		ID = 0;
+		name = "";
+		CostValue = 0;
+		SellValue = 0;
+		Weight = 0;
+		DropChance = 0;
+		InInventory = false;
+	}
+	void CreateItem(int id, string Name, int Cost, int Value, float Pounds, float Chance)
+	{
+		ID = id;
+		name = Name;
+		CostValue = Cost;
+		SellValue = Value;
+		Weight = Pounds;
+		DropChance = Chance;
+	}
+	void SetInInventory(int ininventory) { InInventory = ininventory; }
+};
+class WeaponItem : public Item
+{
+private:
+	int MaxDamage;
+	int MinDamage;
+	int DamageEffect; //1 Slashing, 2 Piearcing, 3 Blunt, 4 Magical
+	bool Equipped;
+	bool InInventory;
+public:
+	void SetStats(int maxdamage, int mindamage, int damageeffect)
+	{
+		MaxDamage = maxdamage;
+		MinDamage = mindamage;
+		DamageEffect = damageeffect;
+	}
+	//Constructor
+	WeaponItem()
+	{
+		MaxDamage = 0;
+		MinDamage = 0;
+		DamageEffect = 0;
+		Equipped = false;
+		InInventory = false;
+	}
+};
+class ArmorItem : public Item
+{
+private:
+	bool Equipped;
+	int AC;
+	bool InInventory;
+public:
+	void SetStats(int ac)
+	{
+		AC = ac;
+	}
+	void SetAC(int ac) { AC = ac; }
+	void SetEquipped(int equipped) { Equipped = equipped; }
+	//Constructor
+	ArmorItem()
+	{
+		Equipped = false;
+		InInventory = false;
+		AC = 0;
+	}
+};
+class HealingItem : public Item
+{
+private:
+	int MaxHeal;
+	int MinHeal;
+	bool InInventory;
+public:
+	void SetStats(int maxheal, int minheal)
+	{
+		MaxHeal = maxheal;
+		MinHeal = minheal;
+	}
+	//Constructor
+	HealingItem()
+	{
+		MaxHeal = 0;
+		MinHeal = 0;
+		InInventory = false;
+	}
+};
 class Inventory
 {
 private:
-	int maxinventorysize;
-	int currentinventoryslotstaken;
-	int possibletakenslots;
+	int cap;
+	int nrOfItems;
+	void intitialize()
+	{
+		cap = 20;
+		nrOfItems = 0;
+	}
 public:
-	//Acessors
-	int GetPossibleSlots() { possibletakenslots = maxinventorysize - currentinventoryslotstaken; return possibletakenslots; }
-	int GetMaxInventorySize() { return maxinventorysize; }
-	int GetCurrentInventorySlotsTaken() { return currentinventoryslotstaken; }
-	//Modifers
-	void SetMaxInventorySize(int MaxInventory) { maxinventorysize = MaxInventory; }
-	void SetCurrentInventorySlots(int InventorySlots) { currentinventoryslotstaken = InventorySlots; }
+	void addItem()
+	{
+		nrOfItems + 1;
+	}
+	void removeItem(int index)
+	{
+		nrOfItems - 1;
+	}
+	void InventorySpaceChecker()
+	{
+
+	}
 	//Constructer
 	Inventory()
 	{
-		maxinventorysize = 0;
-		currentinventoryslotstaken = 0;
-		possibletakenslots = 0;
+		this->cap = 0;
+		this->nrOfItems = 0;
 	}
-	//Initilizer
-	void InventoryInitilizer()
+	//Deconstructer
+	~Inventory()
 	{
-		maxinventorysize = 20;
-		currentinventoryslotstaken = 0;
-		possibletakenslots = 20;
-	}
-	//InventoryUpdater
-	void UpdateInventory()
-	{
+
 	}
 };
 class Combat
@@ -354,8 +455,19 @@ int main()
 {
 	//Class Callers
 	Character PC; //Player Character
+	Inventory Inv;
 	srand(time(NULL)); //Randomizer
-					   //Variables	
+					   //Basic Items Untill I Figureout Factory Pattern
+	WeaponItem WoodSword;
+	WeaponItem IronSword;
+	WeaponItem SteelSword;
+	WoodSword.CreateItem(1, "Training Sword", 30, 10, 15, 5); //ID, Name, Cost, Value, Weight, Drop Chance
+	WoodSword.SetStats(2, 1, 3); //Max Damage, Min Damage, Damage Type 1. Slashing 2.Piearcing, 3 Blunt
+	IronSword.CreateItem(2, "Iron Sword", 60, 20, 30, 2.5);//ID, Name, Cost, Value, Weight, Drop Chance
+	IronSword.SetStats(4, 2, 1);//Max Damage, Min Damage, Damage Type 1. Slashing 2.Piearcing, 3 Blunt
+	SteelSword.CreateItem(3, "Steel Sword", 100, 40, 34, .5);//ID, Name, Cost, Value, Weight, Drop Chance
+	SteelSword.SetStats(6, 3, 1);
+	//Variables	
 	bool Playing = true; //Keeps Gamerunning
 	bool UpdaterActive = true; //Keeps Updater Online
 	int Choice; //Menu Choices
@@ -440,8 +552,14 @@ int main()
 					while (Enemy1.GetHealth() > 0)
 					{
 						std::cout << "=========================" << endl;
+						std::cout << "HP: " << PC.GetHealth() << "/" << PC.GetMaxHealth() << " MP: " << PC.GetMana() << "/" << PC.GetMaxMana() << endl;
+						std::cout << "=========================" << endl;
 						cout << "1. HP: " << Enemy1.GetHealth() << "/" << Enemy1.GetMaxHealth() << endl;
 						std::cout << "=========================" << endl;
+						if (Enemy1.GetHealth() < 0)
+						{
+							Enemy1.SetHealth(0);
+						}
 						cin >> Choice;
 						switch (Choice)
 						{
@@ -465,9 +583,19 @@ int main()
 					while (Enemy1.GetHealth() > 0 || Enemy2.GetHealth() > 0)
 					{
 						std::cout << "=========================" << endl;
+						std::cout << "HP: " << PC.GetHealth() << "/" << PC.GetMaxHealth() << " MP: " << PC.GetMana() << "/" << PC.GetMaxMana() << endl;
+						std::cout << "=========================" << endl;
 						cout << "1. HP: " << Enemy1.GetHealth() << "/" << Enemy1.GetMaxHealth() << endl;
 						cout << "2. HP: " << Enemy2.GetHealth() << "/" << Enemy2.GetMaxHealth() << endl;
 						std::cout << "=========================" << endl;
+						if (Enemy1.GetHealth() < 0)
+						{
+							Enemy1.SetHealth(0);
+						}
+						if (Enemy2.GetHealth() < 0)
+						{
+							Enemy2.SetHealth(0);
+						}
 						cin >> Choice;
 						switch (Choice)
 						{
@@ -498,10 +626,24 @@ int main()
 					while (Enemy1.GetHealth() > 0 || Enemy2.GetHealth() > 0 || Enemy3.GetHealth() > 0)
 					{
 						std::cout << "=========================" << endl;
+						std::cout << "HP: " << PC.GetHealth() << "/" << PC.GetMaxHealth() << " MP: " << PC.GetMana() << "/" << PC.GetMaxMana() << endl;
+						std::cout << "=========================" << endl;
 						cout << "1. HP: " << Enemy1.GetHealth() << "/" << Enemy1.GetMaxHealth() << endl;
 						cout << "2. HP: " << Enemy2.GetHealth() << "/" << Enemy2.GetMaxHealth() << endl;
 						cout << "3. HP: " << Enemy3.GetHealth() << "/" << Enemy3.GetMaxHealth() << endl;
 						std::cout << "=========================" << endl;
+						if (Enemy1.GetHealth() < 0)
+						{
+							Enemy1.SetHealth(0);
+						}
+						if (Enemy2.GetHealth() < 0)
+						{
+							Enemy2.SetHealth(0);
+						}
+						if (Enemy3.GetHealth() < 0)
+						{
+							Enemy3.SetHealth(0);
+						}
 						cin >> Choice;
 						switch (Choice)
 						{
@@ -539,11 +681,29 @@ int main()
 					while (Enemy1.GetHealth() > 0 || Enemy2.GetHealth() > 0 || Enemy3.GetHealth() > 0 || Enemy4.GetHealth() > 0)
 					{
 						std::cout << "=========================" << endl;
+						std::cout << "HP: " << PC.GetHealth() << "/" << PC.GetMaxHealth() << " MP: " << PC.GetMana() << "/" << PC.GetMaxMana() << endl;
+						std::cout << "=========================" << endl;
 						cout << "1. HP: " << Enemy1.GetHealth() << "/" << Enemy1.GetMaxHealth() << endl;
 						cout << "2. HP: " << Enemy2.GetHealth() << "/" << Enemy2.GetMaxHealth() << endl;
 						cout << "3. HP: " << Enemy3.GetHealth() << "/" << Enemy3.GetMaxHealth() << endl;
 						cout << "4. HP: " << Enemy4.GetHealth() << "/" << Enemy4.GetMaxHealth() << endl;
 						std::cout << "=========================" << endl;
+						if (Enemy1.GetHealth() < 0)
+						{
+							Enemy1.SetHealth(0);
+						}
+						if (Enemy2.GetHealth() < 0)
+						{
+							Enemy2.SetHealth(0);
+						}
+						if (Enemy3.GetHealth() < 0)
+						{
+							Enemy3.SetHealth(0);
+						}
+						if (Enemy4.GetHealth() < 0)
+						{
+							Enemy4.SetHealth(0);
+						}
 						cin >> Choice;
 						switch (Choice)
 						{
@@ -588,12 +748,34 @@ int main()
 					while (Enemy1.GetHealth() > 0 || Enemy2.GetHealth() > 0 || Enemy3.GetHealth() > 0 || Enemy4.GetHealth() > 0 || Enemy5.GetHealth() > 0)
 					{
 						std::cout << "=========================" << endl;
+						std::cout << "HP: " << PC.GetHealth() << "/" << PC.GetMaxHealth() << " MP: " << PC.GetMana() << "/" << PC.GetMaxMana() << endl;
+						std::cout << "=========================" << endl;
 						cout << "1. HP: " << Enemy1.GetHealth() << "/" << Enemy1.GetMaxHealth() << endl;
 						cout << "2. HP: " << Enemy2.GetHealth() << "/" << Enemy2.GetMaxHealth() << endl;
 						cout << "3. HP: " << Enemy3.GetHealth() << "/" << Enemy3.GetMaxHealth() << endl;
 						cout << "4. HP: " << Enemy4.GetHealth() << "/" << Enemy4.GetMaxHealth() << endl;
 						cout << "5. HP: " << Enemy5.GetHealth() << "/" << Enemy5.GetMaxHealth() << endl;
 						std::cout << "=========================" << endl;
+						if (Enemy1.GetHealth() < 0)
+						{
+							Enemy1.SetHealth(0);
+						}
+						if (Enemy2.GetHealth() < 0)
+						{
+							Enemy2.SetHealth(0);
+						}
+						if (Enemy3.GetHealth() < 0)
+						{
+							Enemy3.SetHealth(0);
+						}
+						if (Enemy4.GetHealth() < 0)
+						{
+							Enemy4.SetHealth(0);
+						}
+						if (Enemy5.GetHealth() < 0)
+						{
+							Enemy5.SetHealth(0);
+						}
 						cin >> Choice;
 						switch (Choice)
 						{
@@ -631,8 +813,16 @@ int main()
 					break;
 				}
 				system("CLS");
-				ChangingVariable = rand() % (CombatArenaEnemyChance * 5) + 10;
-				ChangingVariable0 = rand() % (CombatArenaEnemyChance * 5) + 20;
+				if (CombatArenaEnemyChance > 0)
+				{
+					ChangingVariable = rand() % (CombatArenaEnemyChance * 5) + 10;
+					ChangingVariable0 = rand() % (CombatArenaEnemyChance * 5) + 20;
+				}
+				else
+				{
+					ChangingVariable = 10;
+					ChangingVariable0 = 20;
+				}
 				std::cout << "=========================" << endl;
 				std::cout << "You Won " << ChangingVariable << " Gold!" << endl;
 				std::cout << "And " << ChangingVariable0 << " Exp!" << endl;
